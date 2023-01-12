@@ -1,0 +1,13 @@
+.newTask {
+  display: flex;
+  width: 800px;
+  padding: 15px;
+  border: 2px solid teal;
+  margin-top: 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  margin-left: 20px;
+}

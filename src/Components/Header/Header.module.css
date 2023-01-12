@@ -1,0 +1,10 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  font-size: 24px;
+  color: white;
+  background-color: teal;
+  text-transform: uppercase;
+}
