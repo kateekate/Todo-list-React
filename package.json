@@ -17,7 +17,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "node ./server",
+    "dev": "concurrently 'npm run server' 'npm run start'"
   },
   "eslintConfig": {
     "extends": [
@@ -38,6 +40,7 @@
     ]
   },
   "devDependencies": {
+    "concurrently": "^7.6.0",
     "eslint": "^8.31.0",
     "eslint-plugin-react": "^7.32.0"
   }
