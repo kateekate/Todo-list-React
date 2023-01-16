@@ -12,5 +12,6 @@
 
 .App {
   width: 800px;
+  min-height: 100vh;
   text-align: center;
 }

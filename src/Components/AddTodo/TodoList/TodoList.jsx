@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import classes from './TodoList.module.css'
 import { Card, Space, Button, Input } from 'antd'
 import { DeleteOutlined, EditOutlined, SaveOutlined, LockOutlined, UnlockOutlined } from '@ant-design/icons'
+import { removeTodo, updateTodo } from '../../../Api'
 
 
 function TodoList({ todo, setTodo }) {
@@ -9,19 +10,19 @@ function TodoList({ todo, setTodo }) {
 	const [edit, setEdit] = useState(null)
 	const [value, setValue] = useState('')
 
-	function deleteTodo(id) {
-		const newTodo = [...todo].filter(item => item.id !== id)
-		setTodo(newTodo)
+	async function deleteTodo(id) {
+		await removeTodo(id)
+		setTodo(prev => prev.filter(item => item._id !== id))
 	}
 
-	function statusTodo(id) {
-		const newTodo = [...todo].filter(item => {
-			if (item.id === id) {
+	async function statusTodo(id, title, status) {
+		await updateTodo(id, {title, status: !status})
+		setTodo(prev => [...prev].filter(item => {
+			if (item._id === id) {
 				item.status = !item.status
 			}
 			return item
-		})
-		setTodo(newTodo)
+		}))
 	}
 
 	function editTodo(id, title) {
@@ -29,14 +30,17 @@ function TodoList({ todo, setTodo }) {
 		setValue(title)
 	}
 
-	function saveTodo(id) {
-		const newTodo = [...todo].map(item => {
-			if (item.id === id) {
+	async function saveTodo(id, status) {
+		await updateTodo(id, {
+			title: value,
+			status,
+		})
+		setTodo(prev => [...prev].map(item => {
+			if (item._id === id) {
 				item.title = value
 			}
 			return item
-		})
-		setTodo(newTodo)
+		}))
 		setEdit(null)
 	}
 
@@ -44,25 +48,25 @@ function TodoList({ todo, setTodo }) {
 		<Space className={classes.todoList}>
 			{
 				todo.map(item => (
-					<Card className={classes.listItem} key={item.id}>
+					<Card className={classes.listItem} key={item._id}>
 						{
-							edit === item.id ?
+							edit === item._id ?
 								<div >
 									<Input className={classes.changedCard} value={value} onChange={(e) => setValue(e.target.value)} />
 								</div> :
-								<Card className={!item.status ? classes.close : classes.changedCardTitle}>{item.title} </Card>
+								<Card className={!item.status ? classes.changedCardTitle : classes.close}>{item.title} </Card>
 						}
 						{
-							edit === item.id ?
+							edit === item._id ?
 								<div className={classes.saveBtn}>
-									<Button onClick={() => saveTodo(item.id)}> <SaveOutlined /> </Button>
+									<Button onClick={() => saveTodo(item._id, item.status)}> <SaveOutlined /> </Button>
 								</div> :
 								<div className={classes.btn}>
-									<Button onClick={() => deleteTodo(item.id)}><DeleteOutlined /></Button>
-									<Button onClick={() => editTodo(item.id, item.title)}><EditOutlined /></Button>
-									<Button onClick={() => statusTodo(item.id)}>
+									<Button onClick={() => deleteTodo(item._id)}><DeleteOutlined /></Button>
+									<Button onClick={() => editTodo(item._id, item.title)}><EditOutlined /></Button>
+									<Button onClick={() => statusTodo(item._id, item.title, item.status)}>
 										{
-											item.status ? <UnlockOutlined /> : <LockOutlined />
+											item.status ? <LockOutlined /> : <UnlockOutlined />
 										}
 									</Button>
 								</div>

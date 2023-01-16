@@ -2,19 +2,17 @@ import React, { useState } from 'react'
 import classes from './AddTodo.module.css'
 import { SaveOutlined } from '@ant-design/icons'
 import { Button, Space, Input } from 'antd'
+import { createTodo } from '../../Api'
 
-function AddTodo({ todo, setTodo }) {
+function AddTodo({ setTodo, setLoading }) {
 
 	const [value, setValue] = useState('')
-	function saveTodo() {
-		setTodo(
-			[...todo, {
-				id: Math.random().toString(36).substring(2, 9),
-				title: value,
-				status: true,
-			}]
-		)
+	async function saveTodo() {
+		setLoading(true)
+		const newTodo = await createTodo(value)
+		setTodo(prev => [...prev, newTodo])
 		setValue('')
+		setLoading(false)
 	}
 
 
