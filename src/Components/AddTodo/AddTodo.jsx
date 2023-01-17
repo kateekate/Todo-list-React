@@ -15,12 +15,13 @@ function AddTodo({ setTodo, setLoading }) {
 		setLoading(false)
 	}
 
+	const isValid = (value.length > 3) && (value.length < 300)
 
 	return (
 		<Space>
 			<div className={classes.newTask}>
-				<Input placeholder="Write a task" value={value} onChange={(e) => setValue(e.target.value)} />
-				<Button onClick={saveTodo} className={classes.button}> <SaveOutlined /> </Button>
+				<Input placeholder="Enter a task..." value={value} onChange={(e) => setValue(e.target.value)} />
+				<Button disabled={!isValid} onClick={saveTodo} className={classes.button}> <SaveOutlined /> </Button>
 			</div>
 		</Space>
 	)

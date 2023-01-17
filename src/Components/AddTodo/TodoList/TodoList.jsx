@@ -44,6 +44,8 @@ function TodoList({ todo, setTodo }) {
 		setEdit(null)
 	}
 
+	const isValid = (value.length > 3) && (value.length < 300)
+
 	return (
 		<Space className={classes.todoList}>
 			{
@@ -59,7 +61,7 @@ function TodoList({ todo, setTodo }) {
 						{
 							edit === item._id ?
 								<div className={classes.saveBtn}>
-									<Button onClick={() => saveTodo(item._id, item.status)}> <SaveOutlined /> </Button>
+									<Button disabled={!isValid} onClick={() => saveTodo(item._id, item.status)}> <SaveOutlined /> </Button>
 								</div> :
 								<div className={classes.btn}>
 									<Button onClick={() => deleteTodo(item._id)}><DeleteOutlined /></Button>
