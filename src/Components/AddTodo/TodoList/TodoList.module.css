@@ -1,6 +1,5 @@
 .todoList {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   margin-top: 15px;
   padding: 15px;
   border: 1px solid teal;
