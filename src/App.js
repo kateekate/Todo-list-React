@@ -9,9 +9,10 @@ import { Spin } from 'antd'
 function App() {
 
 	const [todo, setTodo] = useState([])
-	const [isLoading, setLoading] = useState(true)
+	const [isLoading, setLoading] = useState(false)
 
 	const handleGetAllTodo = async () => {
+		setLoading(true)
 		const newTodo = await getAllTodo()
 		setTodo(newTodo)
 		setLoading(false)
